@@ -22,6 +22,7 @@ const inpPrice = document.getElementById("inpPrice");
 const inpDuration = document.getElementById("inpDuration");
 const inpDescription = document.getElementById("inpDescription");
 const inpImage = document.getElementById("inpImage");
+const inpFeatured = document.getElementById("inpFeatured");
 
 let services = [];
 let editingId = null;
@@ -118,6 +119,7 @@ function openPanel(serviceId = null) {
       inpDuration.value = s.duration || 30;
       inpDescription.value = s.description || "";
       inpImage.value = s.image || "";
+      inpFeatured.checked = !!s.featured;
     }
   } else {
     panelTitle.textContent = "Add Service";
@@ -128,6 +130,7 @@ function openPanel(serviceId = null) {
     inpDuration.value = "30";
     inpDescription.value = "";
     inpImage.value = "";
+    inpFeatured.checked = false;
   }
   panelOverlay.style.display = "flex";
 }
@@ -151,8 +154,9 @@ saveBtn.addEventListener("click", async () => {
     duration: Number(inpDuration.value) || 30,
     description: inpDescription.value,
     image: inpImage.value,
-    ratings: 5.0, // Default for new
-    reviews: 0
+    featured: inpFeatured.checked,
+    ratings: editingId ? (services.find(s => s.id === editingId)?.ratings || 5.0) : 5.0,
+    reviews: editingId ? (services.find(s => s.id === editingId)?.reviews || 0) : 0
   };
 
   try {

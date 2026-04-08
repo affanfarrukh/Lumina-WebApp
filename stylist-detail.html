@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Service | Lumina Salon</title>
+  <title>Stylist Profile | Lumina Salon</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,8 +11,8 @@
   
   <link rel="stylesheet" href="css/globals.css">
   <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/page-login.css"> <!-- Reusing some btn classes if needed -->
-  <link rel="stylesheet" href="css/page-service-detail.css">
+  <link rel="stylesheet" href="css/page-login.css">
+  <link rel="stylesheet" href="css/page-stylist-detail.css">
 
   <style>
     :root { --font-outfit: 'Outfit', sans-serif; }
@@ -25,7 +25,7 @@
     <div class="container" id="mainContainer">
       <!-- Loading Skeletons -->
       <div id="loadingState">
-        <div class="skeleton heroImage" style="border-radius: 0;"></div>
+        <div class="skeleton heroImage" style="border-radius: 0; min-height: 350px;"></div>
         <div class="content">
           <div class="skeleton" style="width: 60%; height: 40px;"></div>
           <div style="margin-top: 12px">
@@ -41,41 +41,62 @@
           <i data-lucide="chevron-left" style="width: 24px; height: 24px;"></i>
         </button>
 
-        <img id="serviceHeroImg" src="" alt="Service Image" class="heroImage" />
+        <div class="heroWrapper">
+          <img id="stylistHeroImg" src="" alt="Stylist Image" class="heroImage" />
+          <div class="heroOverlay"></div>
+          <div class="heroInfo">
+            <h1 class="stName" id="stylistName"></h1>
+            <p class="stRole" id="stylistRole"></p>
+          </div>
+        </div>
 
         <div class="content">
-          <div class="header">
-            <div>
-              <div class="category" id="serviceCategory"></div>
-              <h1 class="title" id="serviceTitle"></h1>
-            </div>
-            <div class="price" id="servicePrice"></div>
-          </div>
-
-          <div class="metaRow">
-            <div class="metaItem">
+          <div class="statsBar">
+            <div class="statItem">
               <i data-lucide="star" class="star"></i>
-              <span id="serviceRating"></span>
+              <span id="stylistRating">0.0</span>
             </div>
-            <div class="metaItem">
-              <i data-lucide="clock"></i>
-              <span id="serviceDuration"></span>
+            <div class="statDivider"></div>
+            <div class="statItem">
+              <i data-lucide="award"></i>
+              <span id="stylistExp">5+ Years</span>
+            </div>
+            <div class="statDivider"></div>
+            <div class="statItem">
+              <i data-lucide="message-square"></i>
+              <span id="reviewCountText">0 Reviews</span>
             </div>
           </div>
 
-          <div>
-            <h3 class="sectionTitle">About Service</h3>
-            <p class="description" id="serviceDescription"></p>
+          <div class="section">
+            <h3 class="sectionTitle">Professional Skills</h3>
+            <div class="skillsList" id="skillsList">
+              <!-- Skills badges -->
+            </div>
           </div>
 
-          <!-- Reviews Section -->
+          <div class="section">
+            <h3 class="sectionTitle">Bio & Achievements</h3>
+            <p class="description" id="stylistBio"></p>
+            <ul class="achievementsList" id="achievementsList">
+              <!-- Achievements items -->
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3 class="sectionTitle">Portfolio</h3>
+            <div class="portfolioGrid" id="portfolioGrid">
+              <!-- Images -->
+            </div>
+          </div>
+
           <div class="reviewsSection">
             <div class="reviewsHeader">
               <h3 class="sectionTitle">Customer Reviews</h3>
               <button class="writeReviewBtn" id="showReviewFormBtn">Write a Review</button>
             </div>
 
-            <!-- Review Form (Hidden by default) -->
+            <!-- Review Form -->
             <div class="reviewFormContainer" id="reviewFormContainer" style="display: none;">
               <div class="starSelector" id="starSelector">
                 <i data-lucide="star" class="star-outline" data-value="1"></i>
@@ -92,24 +113,25 @@
             </div>
 
             <div id="reviewsList" class="reviewsList">
-              <p class="emptyReviews">No reviews yet. Be the first to review!</p>
+              <p class="emptyReviews">No reviews yet.</p>
             </div>
           </div>
         </div>
 
         <div class="bottomAction">
-          <a href="#" id="bookNowBtn" style="width: 100%; text-decoration: none;">
+          <a href="#" id="bookWithBtn" style="width: 100%; text-decoration: none;">
             <button class="btn-primary btn-lg" style="width: 100%;">Book Now</button>
           </a>
         </div>
       </div>
+
       <!-- Error state -->
       <div id="errorState" style="display: none; padding: 40px; text-align: center; color: var(--text-secondary);">
-        Service not found
+        Stylist not found
       </div>
     </div>
   </div>
 
-  <script type="module" src="js/page-service-detail.js"></script>
+  <script type="module" src="js/page-stylist-detail.js"></script>
 </body>
 </html>

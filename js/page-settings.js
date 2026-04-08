@@ -38,7 +38,7 @@ window.addEventListener("DOMContentLoaded", () => {
       currentUser = user;
       currentProfile = profile || {};
       
-      const displayName = currentProfile.name || user.displayName || user.email.split("@")[0];
+      const displayName = currentProfile.name || user.displayName || (user.email ? user.email.split("@")[0] : "Guest User");
       profileNameValue.textContent = displayName;
     }
   });
@@ -181,7 +181,7 @@ editProfileBtn.addEventListener("click", () => {
       
       // Update local state and UI
       Object.assign(currentProfile, updatedData);
-      profileNameValue.textContent = updatedData.name || currentUser?.displayName || currentUser?.email.split("@")[0];
+      profileNameValue.textContent = updatedData.name || currentUser?.displayName || (currentUser?.email ? currentUser.email.split("@")[0] : "Guest User");
       
       closeModal();
     } catch (e) {

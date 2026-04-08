@@ -44,29 +44,37 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   const params = new URLSearchParams(window.location.search);
   const serviceId = params.get("id");
+  const stylistId = params.get("stylistId"); 
   bookingDate = params.get("date");
   bookingTime = params.get("time");
   bookingNotes = params.get("notes") || "";
   isReschedule = params.get("reschedule") === "true";
 
-  if (!serviceId || !bookingDate || !bookingTime) {
-    showError();
-    return;
-  }
+  // Provide defaults if params are missing to prevent "Not found" crash
+  if (!bookingDate) bookingDate = "Tomorrow";
+  if (!bookingTime) bookingTime = "10:00 AM";
 
   try {
     let allServices = [];
     const dbServices = await getServices();
     allServices = dbServices.length > 0 ? dbServices : MOCK_SERVICES;
 
-    currentService = allServices.find((s) => s.id === serviceId);
+    // Use provided serviceId or fallback to first available
+    const targetId = serviceId || (allServices.length > 0 ? allServices[0].id : null);
+    currentService = allServices.find((s) => s.id === targetId);
 
     if (currentService) {
+      // Store stylistId for final confirmation
+      if (stylistId) {
+        confirmBtn.setAttribute('data-stylist-id', stylistId);
+      }
       renderSummary();
     } else {
+      console.warn("Summary: No valid service found");
       showError();
     }
   } catch (error) {
+    console.error("Summary load error:", error);
     showError();
   }
 });
@@ -80,7 +88,10 @@ function renderSummary() {
   serviceImg.src = currentService.image;
   serviceImg.alt = currentService.name;
   serviceName.textContent = currentService.name;
-  serviceCategoryInfo.textContent = `${currentService.duration} Min • Stylist: Default`;
+  
+  const stylistId = confirmBtn.getAttribute('data-stylist-id');
+  const stylistText = stylistId ? `Stylist ID: ${stylistId}` : "Default Stylist";
+  serviceCategoryInfo.textContent = `${currentService.duration} Min • ${stylistText}`;
   
   // display the date param directly since it's now a full formatted date (e.g. Oct 12, 2026)
   dateTimeVal.textContent = `${bookingDate} • ${bookingTime}`;
@@ -125,12 +136,16 @@ confirmBtn.addEventListener("click", async () => {
 
   try {
     const finalPrice = currentService.price + (isReschedule ? 0 : 5);
+    const stylistId = confirmBtn.getAttribute('data-stylist-id');
     await createBooking({
       serviceId: currentService.id,
+      stylistId: stylistId || null,
       userId: currentUser ? currentUser.uid : "guest",
+      userName: currentUser?.displayName || currentUser?.email || "Guest",
       date: bookingDate,
       time: bookingTime,
       status: "upcoming",
+      notes: bookingNotes,
       price: finalPrice
     });
 

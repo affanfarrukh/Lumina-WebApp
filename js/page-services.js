@@ -1,5 +1,5 @@
 import { onAuthStateChange, requireAuth } from "./auth.js";
-import { getServices } from "./db.js";
+import { getServices, getAllReviews } from "./db.js";
 import { MOCK_CATEGORIES, MOCK_SERVICES } from "./mockData.js";
 import { renderBottomNav } from "./components.js";
 
@@ -33,8 +33,34 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   try {
     const dbServices = await getServices();
-    allServices = dbServices.length > 0 ? dbServices : MOCK_SERVICES;
+    if (dbServices.length > 0) {
+      allServices = dbServices;
+    } else {
+      console.warn("Firestore 'services' collection is empty. Falling back to mock data for demo.");
+      allServices = MOCK_SERVICES;
+    }
+    
+    // Enrich with Real Review Data
+    try {
+      const allReviews = await getAllReviews();
+      allServices = allServices.map(service => {
+        const serviceReviews = allReviews.filter(r => r.serviceId === service.id);
+        const count = serviceReviews.length;
+        const avg = count > 0 
+          ? (serviceReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / count).toFixed(1)
+          : "0.0";
+        
+        return {
+          ...service,
+          ratings: parseFloat(avg),
+          reviewsCount: count
+        };
+      });
+    } catch (revError) {
+      console.error("Error aggregating reviews:", revError);
+    }
   } catch (err) {
+    console.error("Critical error in getServices():", err);
     allServices = MOCK_SERVICES;
   }
 
@@ -167,12 +193,16 @@ function renderServices() {
             <span class="priceStr">$${s.price}</span>
             <div class="ratingStr">
               <i data-lucide="star"></i>
-              <span>${s.ratings || 4.5}</span>
+              <span>${s.ratings ? (typeof s.ratings === 'number' ? s.ratings.toFixed(1) : s.ratings) : "0.0"} (${s.reviewsCount || 0})</span>
             </div>
           </div>
         </div>
       </div>
     `;
+    a.addEventListener("click", () => {
+      localStorage.setItem("lastServiceId", s.id);
+    });
+
     servicesGrid.appendChild(a);
   });
 

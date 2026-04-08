@@ -1,5 +1,4 @@
-import { auth } from "./firebase-init.js";
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { auth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "./firebase-init.js";
 import { onAuthStateChange } from "./auth.js";
 
 // If user is already logged in, redirect them

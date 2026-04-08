@@ -1,7 +1,6 @@
 import { onAuthStateChange, requireAuth, requireAdminAuth, logoutUser } from "./auth.js";
 import { getServices, getStylists } from "./db.js";
-import { db } from "./firebase-init.js";
-import { doc, setDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { db, doc, setDoc, collection, getDocs } from "./firebase-init.js";
 import { MOCK_SERVICES, MOCK_STYLISTS } from "./mockData.js";
 import { renderBottomNav } from "./components.js";
 

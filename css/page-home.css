@@ -204,3 +204,73 @@
   font-size: 1rem;
   margin-top: auto;
 }
+
+/* Stylists Section */
+.stylistsScroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 8px 4px 20px 4px;
+  scrollbar-width: none;
+}
+
+.stylistsScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.stCard {
+  min-width: 140px;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+  border: 1px solid var(--border-light);
+}
+
+.stCard:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-gold);
+}
+
+.stImage {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 12px;
+  border: 2px solid var(--accent-gold);
+}
+
+.stName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.stRole {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.stRating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.stRating i {
+  color: var(--accent-gold);
+  fill: var(--accent-gold);
+}

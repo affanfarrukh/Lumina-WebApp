@@ -43,13 +43,17 @@ function renderStylists() {
   stylistsListContainer.innerHTML = "";
 
   allStylists.forEach(stylist => {
-    const a = document.createElement("a");
-    a.href = `services.html`;
-    a.className = "stylistCardWrapper";
+    const id = stylist.id || stylist.uid;
+    if (!id) return;
+    
+    const card = document.createElement("a");
+    card.href = `./stylist-detail.html?id=${id}`;
+    card.className = "stylistCardWrapper";
+    card.setAttribute("data-stylist-id", id);
 
     const isFav = favorites.has(stylist.id);
 
-    a.innerHTML = `
+    card.innerHTML = `
       <div class="stylistCard">
         <div class="imageWrapper">
           <img src="${stylist.image}" alt="${stylist.name}" class="stylistImage" />
@@ -72,12 +76,20 @@ function renderStylists() {
             </div>
           </div>
 
-          <button class="bookBtn">View Services</button>
+          <button class="bookBtn">View Profile</button>
         </div>
       </div>
     `;
 
-    stylistsListContainer.appendChild(a);
+    card.addEventListener("click", (e) => {
+      // Don't intercept if heart button was clicked
+      if (e.target.closest(".heartBtn")) return;
+      
+      console.log("Stylist clicked on List:", id);
+      localStorage.setItem("lastStylistId", id);
+    });
+
+    stylistsListContainer.appendChild(card);
   });
 
   if (window.lucide) window.lucide.createIcons();

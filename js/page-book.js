@@ -52,31 +52,36 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   const params = new URLSearchParams(window.location.search);
   serviceId = params.get("id");
+  const stylistId = params.get("stylistId"); // Capture optional stylistId
   isReschedule = params.get("reschedule") === "true";
-
-  if (!serviceId) {
-    showError();
-    return;
-  }
 
   try {
     let allServices = [];
     const dbServices = await getServices();
     allServices = dbServices.length > 0 ? dbServices : MOCK_SERVICES;
 
+    // If serviceId is missing, try to pick the first available service as fallback
+    // This prevents the "Not found" error when visiting directly or from certain links
+    if (!serviceId && allServices.length > 0) {
+      serviceId = allServices[0].id;
+      console.log("No service ID provided, using fallback:", serviceId);
+    }
+
     currentService = allServices.find((s) => s.id === serviceId);
 
     if (currentService) {
-      renderForm();
+      renderForm(stylistId);
     } else {
+      console.warn("Service not found for ID:", serviceId);
       showError();
     }
   } catch (error) {
+    console.error("Booking load error:", error);
     showError();
   }
 });
 
-function renderForm() {
+function renderForm(stylistId) {
   loadingState.style.display = "none";
   bookForm.style.display = "flex";
   
@@ -84,6 +89,10 @@ function renderForm() {
   
   renderDates();
   renderTimes();
+
+  if (stylistId) {
+    continueBtn.setAttribute('data-stylist-id', stylistId);
+  }
 }
 
 function renderDates() {
@@ -171,12 +180,40 @@ backBtn.addEventListener("click", () => {
 });
 
 continueBtn.addEventListener("click", () => {
-  if (!selectedTime) return;
+  console.log("Continue button clicked. selectedTime:", selectedTime);
   
-  const notes = encodeURIComponent(notesArea.value);
-  const time = encodeURIComponent(selectedTime);
-  const formattedDate = `${selectedDateObj.month} ${selectedDateObj.date}, ${selectedDateObj.year}`;
-  const date = encodeURIComponent(formattedDate);
-  const rescheduleParam = isReschedule ? "&reschedule=true" : "";
-  window.location.href = `book-summary.html?id=${serviceId}&date=${date}&time=${time}&notes=${notes}${rescheduleParam}`;
+  if (!selectedTime) {
+    alert("Please select an available time slot before continuing.");
+    return;
+  }
+  
+  if (!selectedDateObj) {
+    alert("Please select a date before continuing.");
+    return;
+  }
+
+  try {
+    const notesValue = notesArea ? notesArea.value : "";
+    const notes = encodeURIComponent(notesValue || "");
+    const time = encodeURIComponent(selectedTime);
+    const formattedDate = `${selectedDateObj.month} ${selectedDateObj.date}, ${selectedDateObj.year}`;
+    const date = encodeURIComponent(formattedDate);
+    
+    const rescheduleParam = isReschedule ? "&reschedule=true" : "";
+    const stylistId = continueBtn.getAttribute('data-stylist-id');
+    const stylistParam = stylistId ? `&stylistId=${stylistId}` : "";
+    
+    // Fallback for serviceId if it somehow became null
+    const finalServiceId = serviceId || (currentService ? currentService.id : "");
+    
+    const targetUrl = `book-summary.html?id=${finalServiceId}&date=${date}&time=${time}&notes=${notes}${rescheduleParam}${stylistParam}`;
+    console.log("Navigating to:", targetUrl);
+    window.location.href = targetUrl;
+  } catch (err) {
+    console.error("Navigation error:", err);
+    alert("An error occurred while preparing your booking. Please try again.");
+  }
 });
+
+// Also ensure the button is enabled if a time was already selected (unlikely but safe)
+updateContinueBtn();

@@ -173,6 +173,18 @@
   padding: 16px 20px;
   padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   z-index: 100;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-lg {
+  padding: 18px 24px;
+  font-size: 1.1rem;
+  border-radius: var(--radius-md) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 /* Success Modal */

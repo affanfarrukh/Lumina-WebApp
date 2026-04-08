@@ -1,5 +1,4 @@
-import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { auth } from "./firebase-init.js";
+import { auth, onAuthStateChanged, signOut } from "./firebase-init.js";
 import { getUserProfile } from "./db.js";
 
 let currentUser = null;
@@ -57,7 +56,12 @@ export function onAuthStateChange(callback) {
 export function requireAuth() {
   onAuthStateChange(({ user, loading }) => {
     if (!loading && !user) {
-      window.location.href = "login.html";
+      // Defer redirect to prevent interrupting ES module loading
+      setTimeout(() => {
+        if (!getCurrentUser()) {
+          window.location.href = "login.html";
+        }
+      }, 100);
     }
   });
 }
@@ -65,11 +69,14 @@ export function requireAuth() {
 export function requireAdminAuth() {
   onAuthStateChange(({ user, loading }) => {
     if (!loading) {
-      if (!user) {
-        window.location.href = "login.html";
-      } else if (user.email !== "aaazann@gmail.com") {
-        window.location.href = "index.html";
-      }
+      setTimeout(() => {
+        const currentUser = getCurrentUser();
+        if (!currentUser) {
+          window.location.href = "login.html";
+        } else if (currentUser.email !== "aaazann@gmail.com") {
+          window.location.href = "index.html";
+        }
+      }, 100);
     }
   });
 }

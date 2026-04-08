@@ -16,7 +16,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   onAuthStateChange(async ({ user }) => {
     if (user) {
-      let displayName = user.displayName || user.email.split("@")[0];
+      let displayName = user.displayName || (user.email ? user.email.split("@")[0] : "Guest User");
       let displayEmail = user.email;
       let photoURL = user.photoURL || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop";
 

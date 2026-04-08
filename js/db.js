@@ -1,4 +1,5 @@
 import {
+  db,
   collection,
   doc,
   getDocs,
@@ -9,9 +10,9 @@ import {
   query,
   where,
   orderBy,
-  addDoc
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { db } from "./firebase-init.js";
+  addDoc,
+  serverTimestamp
+} from "./firebase-init.js";
 
 // Collection references
 const SERVICES_COLLECTION = "services";
@@ -26,6 +27,12 @@ const BOOKINGS_COLLECTION = "bookings";
 export async function getServices() {
   const snapshot = await getDocs(collection(db, SERVICES_COLLECTION));
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+}
+
+export async function getServiceById(id) {
+  const docRef = doc(db, SERVICES_COLLECTION, id);
+  const snap = await getDoc(docRef);
+  return snap.exists() ? { id: snap.id, ...snap.data() } : null;
 }
 
 export async function addService(serviceData) {
@@ -51,6 +58,12 @@ export async function deleteService(id) {
 export async function getStylists() {
   const snapshot = await getDocs(collection(db, STYLISTS_COLLECTION));
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+}
+
+export async function getStylistById(id) {
+  const docRef = doc(db, STYLISTS_COLLECTION, id);
+  const snap = await getDoc(docRef);
+  return snap.exists() ? { id: snap.id, ...snap.data() } : null;
 }
 
 export async function addStylist(stylistData) {
@@ -125,4 +138,109 @@ export async function cancelBooking(id) {
   // Let's set it to 'cancelled' or delete. The mock data had 'upcoming' or 'completed'.
   // Let's just update the status.
   await updateDoc(docRef, { status: "completed" });
+}
+
+// =======================
+// REVIEWS
+// =======================
+
+export async function getAllReviews() {
+  const snapshot = await getDocs(collection(db, "reviews"));
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+}
+
+export async function getReviewsByService(serviceId) {
+  const q = query(
+    collection(db, "reviews"),
+    where("serviceId", "==", serviceId)
+    // removed orderBy to avoid index requirement, we sort in JS
+  );
+  const snapshot = await getDocs(q);
+  const reviews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  
+  // Sort by createdAt desc in JS (handling potential nulls/missing fields)
+  return reviews.sort((a, b) => {
+    const timeA = a.createdAt?.seconds || 0;
+    const timeB = b.createdAt?.seconds || 0;
+    return timeB - timeA;
+  });
+}
+
+export async function addReview(reviewData) {
+  // reviewData: { serviceId, userId, userName, rating, comment }
+  const data = {
+    ...reviewData,
+    createdAt: serverTimestamp()
+  };
+  
+  const docRef = await addDoc(collection(db, "reviews"), data);
+  
+  // Update service totals
+  const serviceRef = doc(db, SERVICES_COLLECTION, reviewData.serviceId);
+  const serviceSnap = await getDoc(serviceRef);
+  
+  if (serviceSnap.exists()) {
+    const service = serviceSnap.data();
+    const oldRating = service.ratings || 0;
+    const oldCount = service.reviews || 0;
+    
+    // Simple average calculation
+    const newCount = oldCount + 1;
+    const newRating = ((oldRating * oldCount) + reviewData.rating) / newCount;
+    
+    await updateDoc(serviceRef, {
+      ratings: parseFloat(newRating.toFixed(1)),
+      reviews: newCount
+    });
+  }
+  
+  return { id: docRef.id, ...data };
+}
+
+// =======================
+// STYLIST REVIEWS
+// =======================
+
+export async function getReviewsByStylist(stylistId) {
+  const q = query(
+    collection(db, "stylist_reviews"),
+    where("stylistId", "==", stylistId)
+  );
+  const snapshot = await getDocs(q);
+  const reviews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  
+  return reviews.sort((a, b) => {
+    const timeA = a.createdAt?.seconds || 0;
+    const timeB = b.createdAt?.seconds || 0;
+    return timeB - timeA;
+  });
+}
+
+export async function addStylistReview(reviewData) {
+  const data = {
+    ...reviewData,
+    createdAt: serverTimestamp()
+  };
+  
+  const docRef = await addDoc(collection(db, "stylist_reviews"), data);
+  
+  // Update stylist totals
+  const stylistRef = doc(db, STYLISTS_COLLECTION, reviewData.stylistId);
+  const stylistSnap = await getDoc(stylistRef);
+  
+  if (stylistSnap.exists()) {
+    const stylist = stylistSnap.data();
+    const oldRating = stylist.rating || 0;
+    const oldCount = stylist.reviews || 0;
+    
+    const newCount = oldCount + 1;
+    const newRating = ((oldRating * oldCount) + reviewData.rating) / newCount;
+    
+    await updateDoc(stylistRef, {
+      rating: parseFloat(newRating.toFixed(1)),
+      reviews: newCount
+    });
+  }
+  
+  return { id: docRef.id, ...data };
 }

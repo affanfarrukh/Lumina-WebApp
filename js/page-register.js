@@ -1,5 +1,4 @@
-import { auth } from "./firebase-init.js";
-import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { auth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from "./firebase-init.js";
 import { onAuthStateChange } from "./auth.js";
 import { saveUserProfile } from "./db.js";
 

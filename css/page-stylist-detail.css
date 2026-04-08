@@ -1,0 +1,301 @@
+.heroWrapper {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.8));
+}
+
+.heroInfo {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  color: white;
+}
+
+.stName {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.stRole {
+  font-size: 1rem;
+  opacity: 0.9;
+  letter-spacing: 0.5px;
+}
+
+.backBtn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  background: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+.content {
+  padding: 24px;
+  padding-bottom: 100px;
+}
+
+.statsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 16px;
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  margin-top: -40px;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.statItem i {
+  width: 18px;
+  height: 18px;
+  color: var(--accent-gold);
+}
+
+.statDivider {
+  width: 1px;
+  height: 24px;
+  background: var(--border-color);
+}
+
+.section {
+  margin-top: 32px;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.skillsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skillBadge {
+  padding: 8px 16px;
+  background: var(--bg-accent-soft);
+  color: var(--accent-gold);
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.description {
+  line-height: 1.6;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.achievementsList {
+  margin-top: 12px;
+  padding-left: 20px;
+  color: var(--text-secondary);
+}
+
+.achievementsList li {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.portfolioGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.portfolioItem {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.portfolioItem:hover {
+  transform: scale(1.02);
+}
+
+/* Reviews */
+.reviewsSection {
+  margin-top: 40px;
+}
+
+.reviewsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.writeReviewBtn {
+  background: none;
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reviewFormContainer {
+  background: var(--bg-secondary);
+  padding: 16px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+}
+
+.starSelector i, .starSelector svg {
+  width: 32px;
+  height: 32px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.star-outline { 
+  color: var(--text-tertiary) !important; 
+  fill: none !important; 
+}
+
+.star-filled { 
+  color: var(--accent-gold) !important; 
+  fill: var(--accent-gold) !important; 
+}
+
+.starSelector i:hover, .starSelector svg:hover {
+  transform: scale(1.1);
+  color: var(--accent-gold) !important;
+}
+
+.reviewTextarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  font-family: inherit;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn-cancel {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-submit {
+  background: var(--accent-gold);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reviewCard {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  padding: 16px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+}
+
+.reviewCardHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.reviewerName { font-weight: 600; font-size: 0.9rem; }
+.reviewDate { font-size: 0.8rem; color: var(--text-tertiary); }
+
+.reviewStars { 
+  margin-bottom: 8px; 
+  display: flex; 
+  gap: 2px; 
+  justify-content: center;
+}
+
+.reviewComment {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.bottomAction {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-light);
+  z-index: 100;
+  display: flex;
+}
+
+.btn-lg {
+  padding: 16px 24px;
+  font-size: 1.125rem;
+}
+
+.emptyReviews {
+  text-align: center;
+  color: var(--text-tertiary);
+  padding: 20px;
+}
