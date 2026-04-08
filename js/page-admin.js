@@ -44,12 +44,14 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 });
 
-logoutBtn.addEventListener("click", async () => {
-  if (confirm("Are you sure you want to logout?")) {
-    await logoutUser();
-    window.location.href = "login.html";
-  }
-});
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async () => {
+    if (confirm("Are you sure you want to logout?")) {
+      await logoutUser();
+      window.location.href = "login.html";
+    }
+  });
+}
 
 seedDbBtn.addEventListener("click", async () => {
   seedDbBtn.disabled = true;

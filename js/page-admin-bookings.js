@@ -18,9 +18,11 @@ window.addEventListener("DOMContentLoaded", async () => {
   await loadData();
 });
 
-backBtn.addEventListener("click", () => {
-  window.history.back();
-});
+if (backBtn) {
+  backBtn.addEventListener("click", () => {
+    window.history.back();
+  });
+}
 
 async function loadData() {
   tableBody.innerHTML = `<tr><td colspan="6" class="emptyState">Loading bookings...</td></tr>`;

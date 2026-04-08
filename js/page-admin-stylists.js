@@ -31,9 +31,11 @@ window.addEventListener("DOMContentLoaded", async () => {
   await loadStylists();
 });
 
-backBtn.addEventListener("click", () => {
-  window.history.back();
-});
+if (backBtn) {
+  backBtn.addEventListener("click", () => {
+    window.history.back();
+  });
+}
 
 async function loadStylists() {
   tableBody.innerHTML = `<tr><td colspan="4" class="emptyState">Loading stylists...</td></tr>`;

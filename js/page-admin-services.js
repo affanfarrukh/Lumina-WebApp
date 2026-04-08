@@ -33,9 +33,11 @@ window.addEventListener("DOMContentLoaded", async () => {
   await loadServices();
 });
 
-backBtn.addEventListener("click", () => {
-  window.history.back();
-});
+if (backBtn) {
+  backBtn.addEventListener("click", () => {
+    window.history.back();
+  });
+}
 
 async function loadServices() {
   tableBody.innerHTML = `<tr><td colspan="4" class="emptyState">Loading services...</td></tr>`;
