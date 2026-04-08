@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Admin Dashboard | Lumina Salon</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/page-admin.css">
+
+  <style>
+    :root { --font-outfit: 'Outfit', sans-serif; }
+  </style>
+
+  <script src="js/lucide.min.js"></script>
+</head>
+<body>
+  <div class="shell" id="app">
+    
+    <nav class="topNav">
+      <div class="sidebarLogo">✦ Lumina</div>
+      <div class="navLinks">
+        <a href="admin.html" class="navLink active" title="Dashboard">
+          <i data-lucide="layout-dashboard" style="width: 16px; height: 16px;"></i>
+        </a>
+        <a href="admin-services.html" class="navLink" title="Services">
+          <i data-lucide="scissors" style="width: 16px; height: 16px;"></i>
+        </a>
+        <a href="admin-stylists.html" class="navLink" title="Stylists">
+          <i data-lucide="users" style="width: 16px; height: 16px;"></i>
+        </a>
+        <a href="admin-bookings.html" class="navLink" title="Bookings">
+          <i data-lucide="calendar" style="width: 16px; height: 16px;"></i>
+        </a>
+      </div>
+    </nav>
+
+    <div class="content page">
+      <h1 class="heading">Dashboard</h1>
+
+      <div>
+        <p class="sectionTitle">Overview</p>
+        <div style="margin-top: 12px;">
+          <div class="statsGrid">
+            <div class="statCard">
+              <div class="statIconRow"><i data-lucide="scissors"></i></div>
+              <p class="statLabel">Services</p>
+              <p class="statValue" id="servicesCount">0</p>
+            </div>
+            <div class="statCard">
+              <div class="statIconRow"><i data-lucide="users"></i></div>
+              <p class="statLabel">Stylists</p>
+              <p class="statValue" id="stylistsCount">0</p>
+            </div>
+            <div class="statCard">
+              <div class="statIconRow"><i data-lucide="calendar"></i></div>
+              <p class="statLabel">Bookings</p>
+              <p class="statValue" id="bookingsCount">0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="sectionTitle">Quick Actions</p>
+        <div style="margin-top: 12px;">
+          <div class="quickLinks">
+            <a href="admin-services.html" class="quickCard">
+              <div class="quickIcon"><i data-lucide="scissors"></i></div>
+              <p class="quickTitle">Manage Services</p>
+              <p class="quickSub">Add, edit or remove services</p>
+            </a>
+            <a href="admin-stylists.html" class="quickCard">
+              <div class="quickIcon"><i data-lucide="users"></i></div>
+              <p class="quickTitle">Manage Stylists</p>
+              <p class="quickSub">Update your team roster</p>
+            </a>
+            <a href="admin-bookings.html" class="quickCard">
+              <div class="quickIcon"><i data-lucide="calendar"></i></div>
+              <p class="quickTitle">View Bookings</p>
+              <p class="quickSub">See all appointments</p>
+            </a>
+            <button id="seedDbBtn" class="quickCard" style="text-align: left;">
+              <div class="quickIcon" style="color: #d946ef; background-color: #fdf4ff; border-radius: 8px; padding: 4px; display: inline-flex;">
+                <i data-lucide="database"></i>
+              </div>
+              <p class="quickTitle" id="seedDbTitle">Seed Firebase DB</p>
+              <p class="quickSub">Upload mock data to Firestore</p>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script type="module" src="js/page-admin.js"></script>
+</body>
+</html>

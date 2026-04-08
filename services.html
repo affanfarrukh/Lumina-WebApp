@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Services | Lumina Salon</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/page-services.css">
+
+  <style>
+    :root { --font-outfit: 'Outfit', sans-serif; }
+  </style>
+
+  <script src="js/lucide.min.js"></script>
+</head>
+<body>
+  <div class="app-container" id="app">
+    <div class="page-content container">
+      
+      <div class="header">
+        <h1 class="title">Explore Services</h1>
+        <button class="filterBtn" id="openFilterBtn">
+          <i data-lucide="filter" style="width: 16px; height: 16px;"></i>
+          Filter
+          <span class="filterCount" id="filterCount" style="display: none;">0</span>
+        </button>
+      </div>
+
+      <div class="categoriesFilters" id="categoriesFilters">
+        <!-- Badges will be generated via JS -->
+      </div>
+
+      <div class="grid" id="servicesGrid">
+        <!-- Skeletons initially -->
+        <div class="skeleton" style="width: 100%; height: 220px; border-radius: 16px;"></div>
+        <div class="skeleton" style="width: 100%; height: 220px; border-radius: 16px;"></div>
+      </div>
+
+      <!-- Filter Bottom Sheet -->
+      <div class="sheetOverlay" id="filterSheet">
+        <div class="sheet" id="sheetContent">
+          <div class="sheetHandle"></div>
+          <h2 class="sheetTitle">Sort & Filter</h2>
+
+          <p class="sheetLabel">Sort By</p>
+          <div class="sortOptions" id="sortOptions">
+             <button class="sortBtn" data-sort="default">Default</button>
+             <button class="sortBtn" data-sort="price_asc">Price: Low &rarr; High</button>
+             <button class="sortBtn" data-sort="price_desc">Price: High &rarr; Low</button>
+             <button class="sortBtn" data-sort="rating">Top Rated</button>
+          </div>
+
+          <div class="sheetActions">
+            <button class="resetBtn" id="resetFiltersBtn">Reset All</button>
+            <button class="applyBtn" id="applyFiltersBtn">Apply</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="js/components.js"></script>
+  <script type="module" src="js/page-services.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>My Bookings | Lumina Salon</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/page-bookings.css">
+
+  <style>
+    :root { --font-outfit: 'Outfit', sans-serif; }
+  </style>
+
+  <script src="js/lucide.min.js"></script>
+</head>
+<body>
+  <div class="app-container" id="app">
+    <div class="page-content container">
+      
+      <h1 class="title">My Bookings</h1>
+
+      <div class="tabs" id="bookingTabs">
+        <button class="tab active" data-tab="upcoming">Upcoming</button>
+        <button class="tab" data-tab="past">Past Bookings</button>
+      </div>
+
+      <div class="list" id="bookingsList">
+        <!-- Rendered via JS -->
+        <div style="text-align: center; padding: 40px;">Loading bookings...</div>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="js/components.js"></script>
+  <script type="module" src="js/page-bookings.js"></script>
+</body>
+</html>

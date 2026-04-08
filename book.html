@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Book Service | Lumina Salon</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/page-book.css">
+
+  <style>
+    :root { --font-outfit: 'Outfit', sans-serif; }
+  </style>
+
+  <script src="js/lucide.min.js"></script>
+</head>
+<body>
+  <div class="app-container" id="app">
+    <div id="loadingState" style="padding: 40px; text-align: center;">Loading...</div>
+    <div id="errorState" style="display: none; padding: 40px; text-align: center;">Not found</div>
+    
+    <div class="container" id="bookForm" style="display: none;">
+      <header class="header">
+        <button class="backBtn" id="backBtn">
+          <i data-lucide="chevron-left" style="width: 24px; height: 24px;"></i>
+        </button>
+        <h1 class="title">Select Date & Time</h1>
+      </header>
+
+      <section class="section">
+        <h2 class="sectionTitle" id="monthYearTitle">October 2026</h2>
+        <div class="dateScroll" id="dateScroll">
+          <!-- Rendered via JS -->
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="sectionTitle">Available Slots</h2>
+        <div class="timeGrid" id="timeGrid">
+          <!-- Rendered via JS -->
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="sectionTitle">Add Notes (Optional)</h2>
+        <textarea
+          class="textArea"
+          id="notesArea"
+          placeholder="Any specific requests for the stylist/therapist?"
+        ></textarea>
+      </section>
+
+      <div class="bottomAction">
+        <div class="priceInfo">
+          <span class="totalLabel">Total Price</span>
+          <span class="totalPrice" id="totalPriceDisplay">$0</span>
+        </div>
+        <button class="btn-primary btn-lg" id="continueBtn" disabled>
+          Continue
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/page-book.js"></script>
+</body>
+</html>

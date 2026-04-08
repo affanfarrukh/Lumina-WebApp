@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Admin Services | Lumina Salon</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/page-admin.css">
+  <link rel="stylesheet" href="css/page-admin-panel.css">
+
+  <style>
+    :root { --font-outfit: 'Outfit', sans-serif; }
+  </style>
+
+  <script src="js/lucide.min.js"></script>
+</head>
+<body>
+  <div class="shell" id="app">
+    
+    <nav class="topNav">
+      <div class="sidebarLogo">✦ Lumina</div>
+      <div class="navLinks">
+        <a href="admin.html" class="navLink" title="Dashboard">
+          <i data-lucide="layout-dashboard" style="width: 16px; height: 16px;"></i>
+        </a>
+        <a href="admin-services.html" class="navLink active" title="Services">
+          <i data-lucide="scissors" style="width: 16px; height: 16px;"></i>
+        </a>
+        <a href="admin-stylists.html" class="navLink" title="Stylists">
+          <i data-lucide="users" style="width: 16px; height: 16px;"></i>
+        </a>
+        <a href="admin-bookings.html" class="navLink" title="Bookings">
+          <i data-lucide="calendar" style="width: 16px; height: 16px;"></i>
+        </a>
+      </div>
+    </nav>
+
+    <div class="content page" style="padding: 24px;">
+      <div class="topRow">
+        <h1 class="heading">Services</h1>
+        <button class="addBtn" id="openAddBtn">
+          <i data-lucide="plus" style="width: 16px; height: 16px;"></i> Add Service
+        </button>
+      </div>
+
+      <table class="table" style="margin-top: 10px;">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="servicesTableBody">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+
+      <!-- Overlay Panel -->
+      <div class="overlay" id="panelOverlay" style="display: none;">
+        <div class="panel" id="sidePanel" onclick="event.stopPropagation()">
+          <div class="panelHeader">
+            <h2 class="panelTitle" id="panelTitle">Add Service</h2>
+            <button class="panelClose" id="closePanelBtn"><i data-lucide="x" style="width: 20px; height: 20px;"></i></button>
+          </div>
+          <div class="form">
+            <div class="fieldGroup">
+              <label class="panelLabel">Service Name</label>
+              <input class="panelInput" id="inpName" placeholder="e.g. Classic Haircut" />
+            </div>
+            <div class="fieldGroup">
+              <label class="panelLabel">Category</label>
+              <select class="panelSelect" id="inpCategory">
+                <option value="Hair">Hair</option>
+                <option value="Facial">Facial</option>
+                <option value="Massage">Massage</option>
+                <option value="Nails">Nails</option>
+                <option value="Makeup">Makeup</option>
+                <option value="Spa">Spa</option>
+              </select>
+            </div>
+            <div class="fieldGroup">
+              <label class="panelLabel">Price ($)</label>
+              <input class="panelInput" type="number" id="inpPrice" />
+            </div>
+            <div class="fieldGroup">
+              <label class="panelLabel">Duration (minutes)</label>
+              <input class="panelInput" type="number" id="inpDuration" />
+            </div>
+            <div class="fieldGroup">
+              <label class="panelLabel">Description</label>
+              <textarea class="panelTextarea" id="inpDescription" placeholder="Short description of the service..."></textarea>
+            </div>
+            <div class="fieldGroup">
+              <label class="panelLabel">Image URL</label>
+              <input class="panelInput" id="inpImage" placeholder="https://..." />
+            </div>
+            <button class="saveBtn" id="saveBtn">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="js/page-admin-services.js"></script>
+</body>
+</html>

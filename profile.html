@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Profile | Lumina Salon</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/page-profile.css">
+
+  <style>
+    :root { --font-outfit: 'Outfit', sans-serif; }
+  </style>
+
+  <script src="js/lucide.min.js"></script>
+</head>
+<body>
+  <div class="app-container" id="app">
+    <div class="page-content container">
+      <h1 class="title">Profile</h1>
+
+      <div class="profileCard">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop" 
+             alt="Profile" 
+             class="profilePic" id="profilePic">
+        <div class="profileInfo">
+          <h2 class="name" id="profileName">User</h2>
+          <p class="email" id="profileEmail"></p>
+        </div>
+      </div>
+
+      <div class="menuList" id="menuList">
+        <a href="bookings.html" class="menuItemWrapper">
+          <div class="menuItem">
+            <div class="menuIcon"><i data-lucide="clock"></i></div>
+            <span class="menuText">Booking History</span>
+            <div class="menuArrow"><i data-lucide="chevron-right"></i></div>
+          </div>
+        </a>
+        <a href="stylists.html" class="menuItemWrapper">
+          <div class="menuItem">
+            <div class="menuIcon"><i data-lucide="heart"></i></div>
+            <span class="menuText">Favourite Stylists</span>
+            <div class="menuArrow"><i data-lucide="chevron-right"></i></div>
+          </div>
+        </a>
+        <a href="admin.html" class="menuItemWrapper" id="adminLink" style="display: none;">
+          <div class="menuItem">
+            <div class="menuIcon"><i data-lucide="shield"></i></div>
+            <span class="menuText">Admin Dashboard</span>
+            <div class="menuArrow"><i data-lucide="chevron-right"></i></div>
+          </div>
+        </a>
+        <a href="settings.html" class="menuItemWrapper">
+          <div class="menuItem">
+            <div class="menuIcon"><i data-lucide="settings"></i></div>
+            <span class="menuText">Settings</span>
+            <div class="menuArrow"><i data-lucide="chevron-right"></i></div>
+          </div>
+        </a>
+        <a href="help.html" class="menuItemWrapper">
+          <div class="menuItem">
+            <div class="menuIcon"><i data-lucide="help-circle"></i></div>
+            <span class="menuText">Help & Support</span>
+            <div class="menuArrow"><i data-lucide="chevron-right"></i></div>
+          </div>
+        </a>
+      </div>
+
+      <div class="logoutBtnWrapper">
+        <button class="logoutBtn" id="logoutBtn">
+          <i data-lucide="log-out"></i>
+          Log Out
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="js/components.js"></script>
+  <script type="module" src="js/page-profile.js"></script>
+</body>
+</html>

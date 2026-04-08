@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Admin Bookings | Lumina Salon</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/page-admin.css">
+  <link rel="stylesheet" href="css/page-admin-panel.css">
+
+  <style>
+    :root { --font-outfit: 'Outfit', sans-serif; }
+  </style>
+
+  <script src="js/lucide.min.js"></script>
+</head>
+<body>
+  <div class="shell" id="app">
+    
+    <nav class="topNav">
+      <div class="sidebarLogo">✦ Lumina</div>
+      <div class="navLinks">
+        <a href="admin.html" class="navLink" title="Dashboard">
+          <i data-lucide="layout-dashboard" style="width: 16px; height: 16px;"></i>
+        </a>
+        <a href="admin-services.html" class="navLink" title="Services">
+          <i data-lucide="scissors" style="width: 16px; height: 16px;"></i>
+        </a>
+        <a href="admin-stylists.html" class="navLink" title="Stylists">
+          <i data-lucide="users" style="width: 16px; height: 16px;"></i>
+        </a>
+        <a href="admin-bookings.html" class="navLink active" title="Bookings">
+          <i data-lucide="calendar" style="width: 16px; height: 16px;"></i>
+        </a>
+      </div>
+    </nav>
+
+    <div class="content page" style="padding: 24px;">
+      <div class="topRow">
+        <h1 class="heading">Bookings</h1>
+      </div>
+
+      <table class="table" style="margin-top: 10px;">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Customer</th>
+            <th>Service</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="bookingsTableBody">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script type="module" src="js/page-admin-bookings.js"></script>
+</body>
+</html>

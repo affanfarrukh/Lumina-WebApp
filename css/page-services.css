@@ -1,0 +1,265 @@
+/* css/page-services.css */
+
+.container {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.filterBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-tertiary);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  border: none;
+  cursor: pointer;
+}
+
+.categoriesFilters {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+
+.categoriesFilters::-webkit-scrollbar {
+  display: none;
+}
+
+.filterBadge {
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.filterBadge.active {
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+  border-color: var(--text-primary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.serviceCardWrapper {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.serviceCard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+
+.serviceImage {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.serviceContent {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.serviceCategory {
+  font-size: 0.65rem;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.serviceName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.serviceMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  font-size: 0.85rem;
+}
+
+.priceStr {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.ratingStr {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-secondary);
+}
+.ratingStr i {
+  color: var(--accent-gold);
+  fill: var(--accent-gold);
+  width: 12px;
+  height: 12px;
+}
+
+/* Filter count badge */
+.filterCount {
+  background: var(--accent-gold);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 1px 6px;
+  margin-left: 2px;
+}
+
+/* Bottom Sheet */
+.sheetOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 200;
+  display: none;
+  align-items: flex-end;
+}
+
+.sheetOverlay.active {
+  display: flex;
+}
+
+.sheet {
+  width: 100%;
+  background: var(--bg-primary);
+  border-radius: 20px 20px 0 0;
+  padding: 16px 20px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.sheetHandle {
+  width: 36px;
+  height: 4px;
+  border-radius: 99px;
+  background: var(--border-light);
+  align-self: center;
+  margin-bottom: 4px;
+}
+
+.sheetTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.sheetLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: -8px;
+}
+
+.sortOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sortBtn {
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-light);
+  background: var(--bg-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: left;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.sortBtn:hover {
+  border-color: var(--accent-gold);
+}
+
+.sortBtnActive {
+  border-color: var(--accent-gold) !important;
+  background: rgba(212, 175, 55, 0.08) !important;
+  color: var(--accent-gold) !important;
+  font-weight: 600 !important;
+}
+
+.sheetActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.resetBtn {
+  flex: 1;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-light);
+  background: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.applyBtn {
+  flex: 2;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}

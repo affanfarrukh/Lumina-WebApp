@@ -1,0 +1,141 @@
+/* css/page-service-detail.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 100vh;
+}
+
+.heroImage {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  background-color: var(--bg-tertiary);
+}
+
+.backBtn {
+  position: absolute;
+  top: 24px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #171717; /* Dark icon */
+  box-shadow: var(--shadow-md);
+  z-index: 10;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.backBtn:active {
+  transform: scale(0.95);
+}
+
+.content {
+  flex: 1;
+  background-color: var(--bg-primary);
+  border-radius: 24px 24px 0 0;
+  margin-top: -30px;
+  padding: 32px 20px;
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* Add padding bottom for fixed bottom action */
+  padding-bottom: 100px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.category {
+  font-size: 0.85rem;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.metaRow {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 8px;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.metaItem i {
+  width: 16px;
+  height: 16px;
+}
+
+.metaItem i.star {
+  width: 18px;
+  height: 18px;
+  color: var(--accent-gold);
+  fill: var(--accent-gold);
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.description {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.bottomAction {
+  position: fixed;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-light);
+  padding: 16px 20px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 100;
+  display: flex;
+}
+
+.btn-lg {
+  padding: 16px 24px;
+  font-size: 1.125rem;
+}

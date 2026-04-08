@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Stylists | Lumina Salon</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/page-stylists.css">
+
+  <style>
+    :root { --font-outfit: 'Outfit', sans-serif; }
+  </style>
+
+  <script src="js/lucide.min.js"></script>
+</head>
+<body>
+  <div class="app-container" id="app">
+    <div class="page-content container">
+      
+      <header class="header">
+        <h1 class="title">Our Stylists</h1>
+      </header>
+
+      <div class="list" id="stylistsList">
+        <!-- Skeletons initially -->
+        <div class="skeleton" style="width: 100%; height: 120px; border-radius: 16px;"></div>
+        <div class="skeleton" style="width: 100%; height: 120px; border-radius: 16px;"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="js/components.js"></script>
+  <script type="module" src="js/page-stylists.js"></script>
+</body>
+</html>

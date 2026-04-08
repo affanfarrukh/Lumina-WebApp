@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Service | Lumina Salon</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/page-login.css"> <!-- Reusing some btn classes if needed -->
+  <link rel="stylesheet" href="css/page-service-detail.css">
+
+  <style>
+    :root { --font-outfit: 'Outfit', sans-serif; }
+  </style>
+
+  <script src="js/lucide.min.js"></script>
+</head>
+<body>
+  <div class="app-container" id="app">
+    <div class="container" id="mainContainer">
+      <!-- Loading Skeletons -->
+      <div id="loadingState">
+        <div class="skeleton heroImage" style="border-radius: 0;"></div>
+        <div class="content">
+          <div class="skeleton" style="width: 60%; height: 40px;"></div>
+          <div style="margin-top: 12px">
+            <div class="skeleton" style="width: 100%; height: 20px; margin-bottom: 8px;"></div>
+            <div class="skeleton" style="width: 80%; height: 20px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loaded Content -->
+      <div id="loadedState" style="display: none;">
+        <button class="backBtn" id="backBtn">
+          <i data-lucide="chevron-left" style="width: 24px; height: 24px;"></i>
+        </button>
+
+        <img id="serviceHeroImg" src="" alt="Service Image" class="heroImage" />
+
+        <div class="content">
+          <div class="header">
+            <div>
+              <div class="category" id="serviceCategory"></div>
+              <h1 class="title" id="serviceTitle"></h1>
+            </div>
+            <div class="price" id="servicePrice"></div>
+          </div>
+
+          <div class="metaRow">
+            <div class="metaItem">
+              <i data-lucide="star" class="star"></i>
+              <span id="serviceRating"></span>
+            </div>
+            <div class="metaItem">
+              <i data-lucide="clock"></i>
+              <span id="serviceDuration"></span>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="sectionTitle">About Service</h3>
+            <p class="description" id="serviceDescription"></p>
+          </div>
+        </div>
+
+        <div class="bottomAction">
+          <a href="#" id="bookNowBtn" style="width: 100%; text-decoration: none;">
+            <button class="btn-primary btn-lg" style="width: 100%;">Book Now</button>
+          </a>
+        </div>
+      </div>
+      <!-- Error state -->
+      <div id="errorState" style="display: none; padding: 40px; text-align: center; color: var(--text-secondary);">
+        Service not found
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/page-service-detail.js"></script>
+</body>
+</html>

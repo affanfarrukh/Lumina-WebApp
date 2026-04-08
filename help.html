@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Help & Support | Lumina Salon</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/page-help.css">
+
+  <style>
+    :root { --font-outfit: 'Outfit', sans-serif; }
+  </style>
+
+  <script src="js/lucide.min.js"></script>
+</head>
+<body>
+  <div class="app-container" id="app">
+    <div class="container">
+      <header class="header">
+        <button class="backBtn" id="backBtn">
+          <i data-lucide="chevron-left" style="width: 24px; height: 24px;"></i>
+        </button>
+        <h1 class="title">Help & Support</h1>
+      </header>
+
+      <!-- FAQ -->
+      <section>
+        <p class="sectionLabel">Frequently Asked Questions</p>
+        <div class="faqList">
+          <div class="faqItem">
+            <p class="faqQ">How do I reschedule a booking?</p>
+            <p class="faqA">Go to My Bookings, find your upcoming appointment, and tap 'Reschedule' to pick a new date and time.</p>
+          </div>
+          <div class="faqItem">
+            <p class="faqQ">Can I cancel for free?</p>
+            <p class="faqA">Cancellations made 24 hours before the appointment are free. Late cancellations may incur a fee.</p>
+          </div>
+          <div class="faqItem">
+            <p class="faqQ">How do I change my stylist?</p>
+            <p class="faqA">During the booking flow, you can browse and select a preferred stylist before confirming.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section style="margin-top: 10px;">
+        <p class="sectionLabel">Get in Touch</p>
+        <div class="contactList">
+          <!-- Chat -->
+          <button class="contactRow" id="chatBtn">
+            <div class="contactIcon"><i data-lucide="message-circle" style="width: 18px; height: 18px;"></i></div>
+            <div class="contactInfo">
+              <span class="contactLabel">Chat with Us</span>
+              <span class="contactSub">Typically replies in minutes</span>
+            </div>
+            <i data-lucide="chevron-left" class="rowArrow" style="width: 16px; height: 16px;"></i>
+          </button>
+
+          <!-- Call -->
+          <a href="tel:+18000000000" class="contactRow" style="text-decoration: none;">
+            <div class="contactIcon"><i data-lucide="phone" style="width: 18px; height: 18px;"></i></div>
+            <div class="contactInfo">
+              <span class="contactLabel">Call Support</span>
+              <span class="contactSub">+1 800 000 0000</span>
+            </div>
+            <i data-lucide="chevron-left" class="rowArrow" style="width: 16px; height: 16px;"></i>
+          </a>
+
+          <!-- Email -->
+          <a href="mailto:support@lumina.com" class="contactRow" style="text-decoration: none;">
+            <div class="contactIcon"><i data-lucide="mail" style="width: 18px; height: 18px;"></i></div>
+            <div class="contactInfo">
+              <span class="contactLabel">Email Us</span>
+              <span class="contactSub">support@lumina.com</span>
+            </div>
+            <i data-lucide="chevron-left" class="rowArrow" style="width: 16px; height: 16px;"></i>
+          </a>
+        </div>
+      </section>
+
+      <!-- Rate -->
+      <div class="rateBox" style="margin-top: 10px;">
+        <i data-lucide="star" style="width: 20px; height: 20px; color: var(--accent-gold); fill: var(--accent-gold);"></i>
+        <div>
+          <p class="rateTitle">Enjoying the app?</p>
+          <p class="rateSub">Rate us on the App Store</p>
+        </div>
+      </div>
+
+      <!-- Chat Sheet -->
+      <div id="chatOverlay" class="chatOverlay" style="display: none;">
+        <div class="chatSheet" onclick="event.stopPropagation()">
+          <div class="chatHeader">
+            <div>
+              <p class="chatTitle">Lumina Support</p>
+              <p class="chatOnline">● Online</p>
+            </div>
+            <button class="chatClose" id="chatCloseBtn">
+              <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+            </button>
+          </div>
+
+          <div class="chatMessages" id="chatMessages">
+            <div class="bubble bubbleSupport">Hi! 👋 Welcome to Lumina Support. How can we help you today?</div>
+          </div>
+
+          <div class="chatInputRow">
+            <input type="text" class="chatInput" id="chatInput" placeholder="Type a message..." />
+            <button class="sendBtn" id="chatSendBtn">
+              <i data-lucide="send" style="width: 18px; height: 18px;"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="js/page-help.js"></script>
+</body>
+</html>

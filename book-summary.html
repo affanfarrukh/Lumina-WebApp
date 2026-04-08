@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Review Booking | Lumina Salon</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/page-book-summary.css">
+
+  <style>
+    :root { --font-outfit: 'Outfit', sans-serif; }
+  </style>
+
+  <script src="js/lucide.min.js"></script>
+</head>
+<body>
+  <div class="app-container" id="app">
+    <div id="loadingState" style="padding: 40px; text-align: center;">Loading...</div>
+    <div id="errorState" style="display: none; padding: 40px; text-align: center;">Not found</div>
+
+    <div class="container" id="summaryForm" style="display: none;">
+      <header class="header">
+        <button class="backBtn" id="backBtn">
+          <i data-lucide="chevron-left" style="width: 24px; height: 24px;"></i>
+        </button>
+        <h1 class="title" id="pageTitle">Review Booking</h1>
+      </header>
+
+      <div class="summaryCard">
+        <div class="serviceInfo">
+          <img id="serviceImg" src="" alt="Service Image" class="serviceImage" />
+          <div class="serviceDetails">
+            <h3 class="serviceName" id="serviceName"></h3>
+            <span class="serviceCategory" id="serviceCategoryInfo"></span>
+          </div>
+        </div>
+
+        <div class="detailsRow">
+          <span>Date & Time</span>
+          <span class="detailsValue" id="dateTimeVal"></span>
+        </div>
+        
+        <div id="priceDetails">
+          <div class="detailsRow">
+            <span>Subtotal</span>
+            <span class="detailsValue" id="subtotalVal"></span>
+          </div>
+
+          <div class="detailsRow">
+            <span>Taxes & Fees</span>
+            <span class="detailsValue">$5.00</span>
+          </div>
+        </div>
+
+        <div class="detailsRow" style="margin-top: 8px; border-top: 1px solid var(--border-light); padding-top: 16px;">
+          <span style="font-weight: 600; color: var(--text-primary);" id="totalLabel">Total</span>
+          <span style="font-weight: 700; color: var(--text-primary); font-size: 1.1rem;" id="totalVal"></span>
+        </div>
+      </div>
+
+      <div id="paymentSection">
+        <h2 class="sectionTitle">Payment Method</h2>
+        
+        <div class="paymentMethods" id="paymentOptions">
+          <div class="paymentOption active" data-method="card">
+            <i data-lucide="credit-card" class="paymentIcon"></i>
+            <span class="paymentLabel">Credit / Debit Card</span>
+            <div class="radio"><div class="radioInner"></div></div>
+          </div>
+
+          <div class="paymentOption" data-method="upi">
+            <i data-lucide="wallet" class="paymentIcon"></i>
+            <span class="paymentLabel">UPI / Digital Wallet</span>
+            <div class="radio"><div class="radioInner"></div></div>
+          </div>
+
+          <div class="paymentOption" data-method="banknote">
+            <i data-lucide="banknote" class="paymentIcon"></i>
+            <span class="paymentLabel">Pay at Salon</span>
+            <div class="radio"><div class="radioInner"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottomAction">
+        <button class="btn-primary btn-lg" id="confirmBtn" style="width: 100%;">
+          Confirm Appointment
+        </button>
+      </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modalOverlay" id="successModal">
+      <div class="modalContent">
+        <div class="successIcon">
+          <i data-lucide="check" style="width: 32px; height: 32px;"></i>
+        </div>
+        <h2 class="modalTitle" id="modalTitle">Booking Confirmed!</h2>
+        <p class="modalText" id="modalText">
+          Your appointment has been successfully confirmed. We will send you a WhatsApp reminder shortly.
+        </p>
+        <button class="btn-primary" id="homeBtn" style="width: 100%;">
+          Back to Home
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="js/page-book-summary.js"></script>
+</body>
+</html>
