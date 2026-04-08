@@ -18,8 +18,11 @@ const panelTitle = document.getElementById("panelTitle");
 const inpName = document.getElementById("inpName");
 const inpRole = document.getElementById("inpRole");
 const inpImage = document.getElementById("inpImage");
-const inpRating = document.getElementById("inpRating");
-const inpReviews = document.getElementById("inpReviews");
+const inpBio = document.getElementById("inpBio");
+const inpExp = document.getElementById("inpExp");
+const inpSkills = document.getElementById("inpSkills");
+const inpAchievements = document.getElementById("inpAchievements");
+const inpPortfolio = document.getElementById("inpPortfolio");
 
 let stylists = [];
 let editingId = null;
@@ -111,8 +114,11 @@ function openPanel(stylistId = null) {
       inpName.value = s.name || "";
       inpRole.value = s.role || "";
       inpImage.value = s.image || "";
-      inpRating.value = s.rating || 5.0;
-      inpReviews.value = s.reviews || 0;
+      inpBio.value = s.bio || "";
+      inpExp.value = s.experience || "";
+      inpSkills.value = (s.skills || []).join(", ");
+      inpAchievements.value = (s.achievements || []).join("\n");
+      inpPortfolio.value = (s.portfolio || []).join("\n");
     }
   } else {
     panelTitle.textContent = "Add Stylist";
@@ -120,8 +126,11 @@ function openPanel(stylistId = null) {
     inpName.value = "";
     inpRole.value = "";
     inpImage.value = "";
-    inpRating.value = "5.0";
-    inpReviews.value = "0";
+    inpBio.value = "";
+    inpExp.value = "";
+    inpSkills.value = "";
+    inpAchievements.value = "";
+    inpPortfolio.value = "";
   }
   panelOverlay.style.display = "flex";
 }
@@ -142,8 +151,11 @@ saveBtn.addEventListener("click", async () => {
     name: inpName.value,
     role: inpRole.value,
     image: inpImage.value,
-    rating: parseFloat(inpRating.value) || 5.0,
-    reviews: parseInt(inpReviews.value, 10) || 0
+    bio: inpBio.value,
+    experience: inpExp.value,
+    skills: inpSkills.value.split(",").map(s => s.trim()).filter(Boolean),
+    achievements: inpAchievements.value.split("\n").map(s => s.trim()).filter(Boolean),
+    portfolio: inpPortfolio.value.split("\n").map(s => s.trim()).filter(Boolean)
   };
 
   try {

@@ -253,3 +253,25 @@
     opacity: 1;
   }
 }
+
+/* Stylist Summary Styles */
+.stylistSummary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stylistSummaryAvatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.anyStylistSummaryIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
+}

@@ -216,6 +216,11 @@ export async function getReviewsByStylist(stylistId) {
   });
 }
 
+export async function getAllStylistReviews() {
+  const snapshot = await getDocs(collection(db, "stylist_reviews"));
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+}
+
 export async function addStylistReview(reviewData) {
   const data = {
     ...reviewData,

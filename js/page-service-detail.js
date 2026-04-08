@@ -44,11 +44,9 @@ window.addEventListener("DOMContentLoaded", async () => {
   // Fallback to localStorage if ID is missing from URL
   if (!id) {
     id = localStorage.getItem("lastServiceId");
-    console.warn("Service ID missing from URL, using fallback from session:", id);
   }
 
   if (!id) {
-    console.error("No service ID available in URL or session.");
     showError("Please select a service from the home page.");
     return;
   }

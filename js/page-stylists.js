@@ -1,5 +1,5 @@
-import { onAuthStateChange, requireAuth } from "./auth.js";
-import { getStylists } from "./db.js";
+import { requireAuth } from "./auth.js";
+import { getStylists, getAllStylistReviews } from "./db.js";
 import { MOCK_STYLISTS } from "./mockData.js";
 import { renderBottomNav } from "./components.js";
 
@@ -11,11 +11,34 @@ let allStylists = [];
 let favorites = new Set(["st1", "st2"]);
 
 window.addEventListener("DOMContentLoaded", async () => {
-  renderBottomNav("stylists.html"); // Stylists doesn't have an icon in current Nextjs layout but we can render it. Actually in Nextjs, it's not in the bottom nav.
+  renderBottomNav("stylists.html");
 
   try {
     const dbStylists = await getStylists();
-    allStylists = dbStylists.length > 0 ? dbStylists : MOCK_STYLISTS;
+    let stylists = dbStylists.length > 0 ? dbStylists : MOCK_STYLISTS;
+
+    // Aggregation: Calculate real ratings from stylist_reviews collection
+    try {
+      const allReviews = await getAllStylistReviews();
+      stylists = stylists.map(s => {
+        const id = s.id || s.uid;
+        const sReviews = allReviews.filter(r => r.stylistId === id);
+        const count = sReviews.length;
+        const avg = count > 0 
+          ? (sReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / count).toFixed(1)
+          : "0.0";
+        
+        return {
+          ...s,
+          rating: parseFloat(avg),
+          reviewsCount: count
+        };
+      });
+    } catch (revErr) {
+      console.error("Error aggregating stylist reviews:", revErr);
+    }
+
+    allStylists = stylists;
   } catch (error) {
     console.error("Failed to fetch stylists, falling back to mock", error);
     allStylists = MOCK_STYLISTS;
@@ -72,7 +95,7 @@ function renderStylists() {
           <div class="metaRow">
             <div class="metaItem">
               <i data-lucide="star" class="star"></i>
-              <span>${stylist.rating} (${stylist.reviews})</span>
+              <span>${stylist.rating} (${stylist.reviewsCount || 0})</span>
             </div>
           </div>
 

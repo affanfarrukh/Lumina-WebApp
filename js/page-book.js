@@ -1,9 +1,10 @@
 import { onAuthStateChange, requireAuth } from "./auth.js";
-import { getServices } from "./db.js";
-import { MOCK_SERVICES } from "./mockData.js";
+import { getServices, getStylists } from "./db.js";
+import { MOCK_SERVICES, MOCK_STYLISTS } from "./mockData.js";
 
 requireAuth();
 
+const stylistScroll = document.getElementById("stylistScroll");
 const dateScroll = document.getElementById("dateScroll");
 const timeGrid = document.getElementById("timeGrid");
 const continueBtn = document.getElementById("continueBtn");
@@ -36,6 +37,7 @@ const mockDates = generateDates();
 let selectedDate = mockDates[0].fullDate;
 let selectedDateObj = mockDates[0];
 let selectedTime = "";
+let selectedStylistId = "any";
 
 const mockTimes = [
   "09:00 AM", "10:00 AM", "10:30 AM",
@@ -51,28 +53,36 @@ window.addEventListener("DOMContentLoaded", async () => {
   if (window.lucide) window.lucide.createIcons();
 
   const params = new URLSearchParams(window.location.search);
-  serviceId = params.get("id");
-  const stylistId = params.get("stylistId"); // Capture optional stylistId
+  serviceId = params.get("id") || localStorage.getItem("lastServiceId");
+  selectedStylistId = params.get("stylistId") || params.get("stylist") || localStorage.getItem("lastStylistId") || "any";
+  
   isReschedule = params.get("reschedule") === "true";
 
   try {
+    // 1. Fetch Services
     let allServices = [];
     const dbServices = await getServices();
     allServices = dbServices.length > 0 ? dbServices : MOCK_SERVICES;
 
-    // If serviceId is missing, try to pick the first available service as fallback
-    // This prevents the "Not found" error when visiting directly or from certain links
     if (!serviceId && allServices.length > 0) {
       serviceId = allServices[0].id;
-      console.log("No service ID provided, using fallback:", serviceId);
     }
 
     currentService = allServices.find((s) => s.id === serviceId);
 
+    // 2. Fetch Stylists
+    let allStylists = [];
+    try {
+      const dbStylists = await getStylists();
+      allStylists = dbStylists.length > 0 ? dbStylists : MOCK_STYLISTS;
+    } catch (e) {
+      console.error("Stylist fetch fail:", e);
+      allStylists = MOCK_STYLISTS;
+    }
+
     if (currentService) {
-      renderForm(stylistId);
+      renderForm(allStylists);
     } else {
-      console.warn("Service not found for ID:", serviceId);
       showError();
     }
   } catch (error) {
@@ -81,18 +91,65 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-function renderForm(stylistId) {
+function renderForm(stylists) {
   loadingState.style.display = "none";
   bookForm.style.display = "flex";
   
   totalPriceDisplay.textContent = `$${currentService.price}`;
   
+  renderStylists(stylists);
   renderDates();
   renderTimes();
+}
 
-  if (stylistId) {
-    continueBtn.setAttribute('data-stylist-id', stylistId);
-  }
+function renderStylists(stylists) {
+  if (!stylistScroll) return;
+  stylistScroll.innerHTML = "";
+
+  // Add "Any Available" option
+  const anyCard = document.createElement("div");
+  anyCard.className = `stylistCard ${selectedStylistId === "any" ? "active" : ""}`;
+  anyCard.innerHTML = `
+    <div class="stylistAvatarWrapper">
+      <div class="anyStylistIcon">
+        <i data-lucide="help-circle" style="width: 24px; height: 24px;"></i>
+      </div>
+    </div>
+    <span class="stylistName">Any Available</span>
+  `;
+  anyCard.onclick = () => {
+    selectedStylistId = "any";
+    const oldActive = stylistScroll.querySelector(".stylistCard.active");
+    if (oldActive) oldActive.classList.remove("active");
+    anyCard.classList.add("active");
+    updateContinueBtn();
+  };
+  stylistScroll.appendChild(anyCard);
+
+  stylists.forEach(s => {
+    const id = s.id || s.uid;
+    const card = document.createElement("div");
+    card.className = `stylistCard ${selectedStylistId === id ? "active" : ""}`;
+    card.innerHTML = `
+      <div class="stylistAvatarWrapper">
+        <img src="${s.image}" alt="${s.name}" class="stylistAvatar" />
+      </div>
+      <span class="stylistName">${s.name}</span>
+    `;
+    
+    card.onclick = () => {
+      selectedStylistId = id;
+      const oldActive = stylistScroll.querySelector(".stylistCard.active");
+      if (oldActive) oldActive.classList.remove("active");
+      card.classList.add("active");
+      updateContinueBtn();
+    };
+    
+    stylistScroll.appendChild(card);
+  });
+  
+  if (window.lucide) window.lucide.createIcons();
+  updateContinueBtn();
 }
 
 function renderDates() {
@@ -163,6 +220,7 @@ function renderTimes() {
 }
 
 function updateContinueBtn() {
+  // Now only time is strictly required, stylist defaults to "any"
   if (selectedTime) {
     continueBtn.disabled = false;
   } else {
@@ -180,7 +238,6 @@ backBtn.addEventListener("click", () => {
 });
 
 continueBtn.addEventListener("click", () => {
-  console.log("Continue button clicked. selectedTime:", selectedTime);
   
   if (!selectedTime) {
     alert("Please select an available time slot before continuing.");
@@ -200,14 +257,23 @@ continueBtn.addEventListener("click", () => {
     const date = encodeURIComponent(formattedDate);
     
     const rescheduleParam = isReschedule ? "&reschedule=true" : "";
-    const stylistId = continueBtn.getAttribute('data-stylist-id');
-    const stylistParam = stylistId ? `&stylistId=${stylistId}` : "";
+    const stylistToPass = (selectedStylistId && selectedStylistId !== "any") ? selectedStylistId : "";
+    const stylistParam = stylistToPass ? `&stylistId=${stylistToPass}` : "";
     
     // Fallback for serviceId if it somehow became null
     const finalServiceId = serviceId || (currentService ? currentService.id : "");
     
     const targetUrl = `book-summary.html?id=${finalServiceId}&date=${date}&time=${time}&notes=${notes}${rescheduleParam}${stylistParam}`;
-    console.log("Navigating to:", targetUrl);
+    
+    // REDUNDANCY: Save to localStorage in case URL params are stripped on next page
+    localStorage.setItem("lastServiceId", finalServiceId);
+    if (stylistToPass) localStorage.setItem("lastStylistId", stylistToPass);
+    else localStorage.removeItem("lastStylistId");
+    
+    localStorage.setItem("lastBookingDate", formattedDate);
+    localStorage.setItem("lastBookingTime", selectedTime);
+    localStorage.setItem("lastBookingNotes", notesValue || "");
+    
     window.location.href = targetUrl;
   } catch (err) {
     console.error("Navigation error:", err);

@@ -43,14 +43,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   const urlId = urlParams.get("id");
   const storageId = localStorage.getItem("lastStylistId");
   
-  console.log("Stylist Detail Page | Init");
-  console.log("URL ID:", urlId);
-  console.log("Storage ID:", storageId);
-  
-  // High-priority ID selection
   const id = (urlId && urlId !== "null" && urlId !== "undefined") ? urlId : storageId;
-  
-  console.log("Selected ID:", id);
   
   if (!id || id === "null" || id === "undefined") {
     console.error("Critical: No valid stylist ID found in URL or LocalStorage.");
@@ -135,6 +128,20 @@ async function loadReviews(stylistId) {
   reviewsList.innerHTML = `<p class="emptyReviews">Loading feedback...</p>`;
   try {
     const reviews = await getReviewsByStylist(stylistId);
+    
+    // Calculate real source-of-truth metrics
+    const totalReviews = reviews.length;
+    const sumRatings = reviews.reduce((acc, r) => acc + (r.rating || 0), 0);
+    const averageRating = totalReviews > 0 ? (sumRatings / totalReviews).toFixed(1) : "0.0";
+    
+    // Update header stats with real data
+    if (stylistRating) {
+      stylistRating.textContent = averageRating;
+    }
+    if (reviewCountText) {
+      reviewCountText.textContent = `${totalReviews} Reviews`;
+    }
+
     renderReviews(reviews);
   } catch (error) {
     console.error("Error loading stylist reviews:", error);

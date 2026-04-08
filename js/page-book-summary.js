@@ -1,6 +1,6 @@
 import { onAuthStateChange, requireAuth } from "./auth.js";
-import { getServices, createBooking } from "./db.js";
-import { MOCK_SERVICES } from "./mockData.js";
+import { getServices, getStylists, createBooking } from "./db.js";
+import { MOCK_SERVICES, MOCK_STYLISTS } from "./mockData.js";
 
 const loadingState = document.getElementById("loadingState");
 const errorState = document.getElementById("errorState");
@@ -24,6 +24,8 @@ const successModal = document.getElementById("successModal");
 const modalTitle = document.getElementById("modalTitle");
 const modalText = document.getElementById("modalText");
 const homeBtn = document.getElementById("homeBtn");
+const stylistNameVal = document.getElementById("stylistNameVal");
+const stylistSummary = document.getElementById("stylistSummary");
 
 let currentUser = null;
 let currentService = null;
@@ -32,6 +34,7 @@ let bookingTime = "";
 let bookingNotes = "";
 let isReschedule = false;
 let selectedPaymentMethod = "card";
+let currentStylist = null;
 
 requireAuth();
 
@@ -43,14 +46,15 @@ window.addEventListener("DOMContentLoaded", async () => {
   });
 
   const params = new URLSearchParams(window.location.search);
-  const serviceId = params.get("id");
-  const stylistId = params.get("stylistId"); 
-  bookingDate = params.get("date");
-  bookingTime = params.get("time");
-  bookingNotes = params.get("notes") || "";
+  const serviceId = params.get("id") || localStorage.getItem("lastServiceId");
+  const stylistId = params.get("stylistId") || params.get("stylist") || localStorage.getItem("lastStylistId"); 
+  
+  bookingDate = params.get("date") || localStorage.getItem("lastBookingDate");
+  bookingTime = params.get("time") || localStorage.getItem("lastBookingTime");
+  bookingNotes = params.get("notes") || localStorage.getItem("lastBookingNotes") || "";
   isReschedule = params.get("reschedule") === "true";
 
-  // Provide defaults if params are missing to prevent "Not found" crash
+  // Provide defaults ONLY if values are truly missing
   if (!bookingDate) bookingDate = "Tomorrow";
   if (!bookingTime) bookingTime = "10:00 AM";
 
@@ -64,9 +68,22 @@ window.addEventListener("DOMContentLoaded", async () => {
     currentService = allServices.find((s) => s.id === targetId);
 
     if (currentService) {
-      // Store stylistId for final confirmation
+      // 2. Fetch Stylist details
       if (stylistId) {
         confirmBtn.setAttribute('data-stylist-id', stylistId);
+        try {
+          const dbStylists = await getStylists();
+          const allStylists = dbStylists.length > 0 ? dbStylists : MOCK_STYLISTS;
+          
+          // Robust find: check both fetched data and mock data as fallback
+          currentStylist = allStylists.find(s => (s.id || s.uid) === stylistId);
+          
+          if (!currentStylist && dbStylists.length > 0) {
+            currentStylist = MOCK_STYLISTS.find(s => (s.id || s.uid) === stylistId);
+          }
+        } catch (e) {
+          console.error("Stylist summary fetch fail:", e);
+        }
       }
       renderSummary();
     } else {
@@ -89,9 +106,34 @@ function renderSummary() {
   serviceImg.alt = currentService.name;
   serviceName.textContent = currentService.name;
   
-  const stylistId = confirmBtn.getAttribute('data-stylist-id');
-  const stylistText = stylistId ? `Stylist ID: ${stylistId}` : "Default Stylist";
-  serviceCategoryInfo.textContent = `${currentService.duration} Min • ${stylistText}`;
+  if (currentStylist) {
+    stylistNameVal.textContent = currentStylist.name;
+    // Add avatar if it exists
+    const existingAvatar = document.getElementById("stylistAvatar");
+    if (existingAvatar) existingAvatar.remove();
+    
+    if (currentStylist.image) {
+      const img = document.createElement("img");
+      img.id = "stylistAvatar";
+      img.src = currentStylist.image;
+      img.className = "stylistSummaryAvatar";
+      stylistSummary.prepend(img);
+    }
+  } else {
+    stylistNameVal.textContent = "Any Available Stylist";
+    const existingAvatar = document.getElementById("stylistAvatar");
+    if (existingAvatar) existingAvatar.remove();
+    
+    // Add a default fallback icon/avatar if we want
+    const div = document.createElement("div");
+    div.id = "stylistAvatar";
+    div.className = "stylistSummaryAvatar anyStylistSummaryIcon";
+    div.innerHTML = `<i data-lucide="help-circle" style="width: 20px; height: 20px;"></i>`;
+    stylistSummary.prepend(div);
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  serviceCategoryInfo.textContent = `${currentService.duration} Min • Professional Service`;
   
   // display the date param directly since it's now a full formatted date (e.g. Oct 12, 2026)
   dateTimeVal.textContent = `${bookingDate} • ${bookingTime}`;

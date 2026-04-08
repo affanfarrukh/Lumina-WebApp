@@ -84,12 +84,24 @@
               <input class="panelInput" id="inpImage" placeholder="https://..." />
             </div>
             <div class="fieldGroup">
-              <label class="panelLabel">Rating (out of 5)</label>
-              <input class="panelInput" type="number" id="inpRating" step="0.1" min="1" max="5" />
+              <label class="panelLabel">Bio / Description</label>
+              <textarea class="panelInput" id="inpBio" style="min-height: 80px;" placeholder="Brief professional biography..."></textarea>
             </div>
             <div class="fieldGroup">
-              <label class="panelLabel">Number of Reviews</label>
-              <input class="panelInput" type="number" id="inpReviews" />
+              <label class="panelLabel">Experience (e.g. 5+ Years)</label>
+              <input class="panelInput" id="inpExp" placeholder="e.g. 8+ Years" />
+            </div>
+            <div class="fieldGroup">
+              <label class="panelLabel">Skills (comma separated)</label>
+              <textarea class="panelInput" id="inpSkills" style="min-height: 60px;" placeholder="Balayage, Color Correction, Haircuts..."></textarea>
+            </div>
+            <div class="fieldGroup">
+              <label class="panelLabel">Achievements (one per line)</label>
+              <textarea class="panelInput" id="inpAchievements" style="min-height: 80px;" placeholder="L'Oreal Master Colorist Cert..."></textarea>
+            </div>
+            <div class="fieldGroup">
+              <label class="panelLabel">Portfolio Images (One URL per line)</label>
+              <textarea class="panelInput" id="inpPortfolio" style="min-height: 100px;" placeholder="https://image1.jpg&#10;https://image2.jpg"></textarea>
             </div>
             <button class="saveBtn" id="saveBtn">Save Changes</button>
           </div>

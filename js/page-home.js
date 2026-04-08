@@ -1,5 +1,5 @@
 import { onAuthStateChange, requireAuth } from "./auth.js";
-import { getServices, getAllReviews, getStylists } from "./db.js";
+import { getServices, getAllReviews, getStylists, getAllStylistReviews } from "./db.js";
 import { MOCK_CATEGORIES, MOCK_SERVICES, MOCK_STYLISTS } from "./mockData.js";
 import { renderBottomNav } from "./components.js";
 
@@ -74,8 +74,30 @@ window.addEventListener("DOMContentLoaded", async () => {
   // Load Stylists
   try {
     const dbStylists = await getStylists();
-    const allStylists = dbStylists.length > 0 ? dbStylists : MOCK_STYLISTS;
-    renderStylists(allStylists);
+    let stylists = dbStylists.length > 0 ? dbStylists : MOCK_STYLISTS;
+
+    // Aggregation: Calculate real ratings from stylist_reviews collection
+    try {
+      const allStReviews = await getAllStylistReviews();
+      stylists = stylists.map(s => {
+        const id = s.id || s.uid;
+        const sReviews = allStReviews.filter(r => r.stylistId === id);
+        const count = sReviews.length;
+        const avg = count > 0 
+          ? (sReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / count).toFixed(1)
+          : "0.0";
+        
+        return {
+          ...s,
+          rating: parseFloat(avg),
+          reviewsCount: count
+        };
+      });
+    } catch (revErr) {
+      console.error("Error aggregating stylist reviews:", revErr);
+    }
+
+    renderStylists(stylists);
   } catch (error) {
     console.error("Error loading stylists:", error);
     renderStylists(MOCK_STYLISTS);
@@ -205,35 +227,37 @@ function renderStylists(stylists) {
   if (!stylistsScroll) return;
   stylistsScroll.innerHTML = "";
   
-  // Display top 5 stylists
-  // Display top 5 stylists
-  stylists.slice(0, 5).forEach(st => {
-    const id = st.id || st.uid;
-    if (!id) return;
+  // Display top 5 stylists sorted by real average rating
+  [...stylists]
+    .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+    .slice(0, 5)
+    .forEach(st => {
+      const id = st.id || st.uid;
+      if (!id) return;
 
-    const card = document.createElement("a");
-    card.href = `./stylist-detail.html?id=${id}`;
-    card.className = "stCard";
-    card.setAttribute("data-stylist-id", id);
-    
-    card.innerHTML = `
-      <img src="${st.image}" alt="${st.name}" class="stImage" />
-      <h4 class="stName">${st.name}</h4>
-      <p class="stRole">${st.role}</p>
-      <div class="stRating">
-        <i data-lucide="star"></i>
-        <span>${st.rating ? st.rating.toFixed(1) : "0.0"}</span>
-      </div>
-    `;
+      const card = document.createElement("a");
+      card.href = `./stylist-detail.html?id=${id}`;
+      card.className = "stCard";
+      card.setAttribute("data-stylist-id", id);
+      
+      card.innerHTML = `
+        <img src="${st.image}" alt="${st.name}" class="stImage" />
+        <h4 class="stName">${st.name}</h4>
+        <p class="stRole">${st.role}</p>
+        <div class="stRating">
+          <i data-lucide="star" class="star"></i>
+          <span>${st.rating ? st.rating.toFixed(1) : "0.0"} (${st.reviewsCount || 0})</span>
+        </div>
+      `;
 
-    // Intercept with JS for localStorage fallback, but keep raw href for browser compatibility
-    card.addEventListener("click", () => {
-      console.log("Stylist clicked on Home:", id);
-      localStorage.setItem("lastStylistId", id);
+      // Intercept with JS for localStorage fallback, but keep raw href for browser compatibility
+      card.addEventListener("click", () => {
+        console.log("Stylist clicked on Home:", id);
+        localStorage.setItem("lastStylistId", id);
+      });
+
+      stylistsScroll.appendChild(card);
     });
-
-    stylistsScroll.appendChild(card);
-  });
   
   if (window.lucide) window.lucide.createIcons();
 }

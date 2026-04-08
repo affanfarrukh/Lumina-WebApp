@@ -175,3 +175,93 @@
   outline: none;
   border-color: var(--accent-gold);
 }
+
+/* Stylist Selection Styles */
+.stylistScroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 4px 4px 12px 4px;
+  scrollbar-width: none;
+}
+
+.stylistScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.stylistCard {
+  flex: 0 0 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.stylistCard:hover {
+  transform: translateY(-2px);
+}
+
+.stylistAvatarWrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  padding: 3px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.stylistCard.active .stylistAvatarWrapper {
+  border-color: var(--accent-gold);
+}
+
+.stylistAvatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--bg-tertiary);
+}
+
+.stylistName {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  transition: color 0.2s ease;
+}
+
+.stylistCard.active .stylistName {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.loading-inline {
+  padding: 20px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-align: center;
+  width: 100%;
+}
+
+.anyStylistIcon {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-tertiary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.stylistCard.active .anyStylistIcon {
+  background-color: var(--accent-gold);
+  color: white;
+}
